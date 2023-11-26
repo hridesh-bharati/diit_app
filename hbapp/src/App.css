@@ -42,7 +42,6 @@ body::-webkit-scrollbar {
     color: yellow !important;
 }
 
-/* Utility Classes */
 .fbColor {
     background: #3b5998 !important;
 }
@@ -129,7 +128,8 @@ body::-webkit-scrollbar {
     justify-content: center !important;
     flex-direction: column !important;
 }
-.myFlex2{
+
+.myFlex2 {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -229,7 +229,7 @@ body::-webkit-scrollbar {
 }
 
 #TopNavBar {
-    margin: 1.5rem 0 0;
+    margin: 1.4rem 0 0;
     background: 'var(--darkRed)';
     font-size: 0.9rem !important;
 }
@@ -332,7 +332,7 @@ body::-webkit-scrollbar {
 
 /* Testimonial  */
 #carouselExampleInterval {
-    background: url("../public/images/vender/enquiryBg.png") no-repeat;
+    background: urblel("../public/images/vender/enquiryBg.png") no-repeat;
     background-size: cover;
 }
 
@@ -345,6 +345,10 @@ body::-webkit-scrollbar {
 .showFont {
     display: none;
     visibility: hidden;
+}
+
+#openingHour .table>:not(caption)>*>* {
+    color: blue !important;
 }
 
 /* Registation section */
@@ -414,7 +418,7 @@ body::-webkit-scrollbar {
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
     border-radius: 4px !important;
     color: black;
-    background-color: #fff;
+    /* background-color: #fff; */
 }
 
 /* ********Swiper ************* */
@@ -704,7 +708,16 @@ form span,
     border: 1px solid gray;
     border-left: none;
 }
+.contactForm input,
+.contactForm textarea
+{
+   background: #a9a9a952 !important;
+   
+}
+.contactForm ::placeholder{
+    color: rgb(136, 136, 136) !important;
 
+}
 /* Diploma Course */
 
 #course {
@@ -717,6 +730,19 @@ form span,
     top: 5.3rem;
     transform: translate(-50%, -50%);
     z-index: 99;
+}
+
+.visible {
+    visibility: visible;
+}
+
+.hidden {
+    visibility: hidden !important;
+}
+
+#PrintResult table tr th,
+#PrintResult table tr td {
+    padding: 10px !important;
 }
 
 #myDiplomaHeader {
@@ -748,6 +774,10 @@ form span,
     color: white;
     background: url("../public/images/vender/line.gif") !important;
     background-repeat: repeat-x;
+}
+
+.table-bordered>:not(caption)>* {
+    padding: 0.5rem;
 }
 
 .diplomaTable {
@@ -812,6 +842,19 @@ form span,
 }
 
 /* Admin pannel  */
+.amtWheel{
+    animation: amt 1s linear  infinite;
+}
+@keyframes amt {
+    100%{
+        transform: rotate(360deg);
+    }
+    
+}
+#AdminProfile label{
+font-weight: bolder !important;
+color: #0033ff;
+}
 #adminBodyBgColor {
     background: #f1f5f9 !important;
     background: var(--grayBgColor);
@@ -875,4 +918,15 @@ form span,
 
 .accordianShadowHover:hover {
     box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
+}
+
+/* StudentDataBase */
+#StudentDataBase tr,
+#StudentDataBase th,
+#StudentDataBase td {
+    padding: 4px !important;
+}
+
+#StudentDataBase thead tbody {
+    padding: 1rem !important;
 }

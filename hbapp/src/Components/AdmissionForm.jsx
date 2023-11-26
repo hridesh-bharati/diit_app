@@ -1,5 +1,9 @@
-import { useState } from 'react';
+import { Link } from "react-router-dom";
+import { useState,useEffect } from 'react';
+import RealTimeClock from "./Time";
 const AdmissionForm = ((props) => {
+    const [reCaptchaCompleted, setReCaptchaCompleted] = useState(false);
+
     const [uploadStatus, setUploadStatus] = useState(false);
     const [submit, setSubmit] = useState(false);
     const [message, setMessage] = useState('');
@@ -14,7 +18,7 @@ const AdmissionForm = ((props) => {
     const [dob, setDob] = useState("");
     const [course, setCourse] = useState("");
     const [category, setCategory] = useState("");
-    const clrform=(()=>{
+    const clrform = (() => {
         setImage('');
         setPhoto('');
         setName('');
@@ -45,48 +49,137 @@ const AdmissionForm = ((props) => {
             })
 
     }
+    const [checkboxChecked, setCheckboxChecked] = useState(false);
+
     const uploadPhoto = () => {
-        if(image)
-        {
+        if (image) {
             const data = new FormData()
-        data.append("file", image)
-        data.append("upload_preset", "hridesh99!")
-        data.append("cloud_name", "draowpiml")
-        fetch('https://api.cloudinary.com/v1_1/draowpiml/image/upload', {
-            method: 'post',
-            body: data
-        }).then(res => res.json())
-            .then(data => {
-                if(!data.error){
-                    setPhoto(data.url);
-                setUploadStatus(true);
-                }
-            })
-            .catch((error) => {
-                setMessage(error)
-            })
+            data.append("file", image)
+            data.append("upload_preset", "hridesh99!")
+            data.append("cloud_name", "draowpiml")
+            fetch('https://api.cloudinary.com/v1_1/draowpiml/image/upload', {
+                method: 'post',
+                body: data
+            }).then(res => res.json())
+                .then(data => {
+                    if (!data.error) {
+                        setPhoto(data.url);
+                        setUploadStatus(true);
+                    }
+                })
+                .catch((error) => {
+                    setMessage(error)
+                })
         }
     }
 
+    // start captcha 
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = 'https://www.google.com/recaptcha/api.js';
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
 
+        script.onload = () => {
+            window.grecaptcha.render('g-recaptcha', {
+                sitekey: '6LeSkxwpAAAAAJr0__9WFMn2k3bJ9EW1eT52aaqm',
+                callback: () => {
+                    console.log('reCAPTCHA completed!');
+                    setReCaptchaCompleted(true);
+                },
+            });
+        };
+
+        return () => {
+            document.head.removeChild(script);
+        };
+    }, []);
+
+
+    
+// end captcha 
+
+    const [AdmBg, setAdmBg] = useState('var(--admHeadColor)')
+    const [AdmText, setAdmText] = useState('maroon')
+    const [AmdBodyColor, setAmdBodyColor] = useState('#B2CBFF')
+
+
+    const [AdmFooterBg, setAdmFooterBg] = useState('var(--admHeadColor)')
+    const [AdmFooterText, setAdmFooterText] = useState('maroon')
+    const DarkMode = () => {
+        if (AdmBg === 'var(--cardHeadColorDark)') {
+            setAdmBg('var(--admHeadColor)')
+            setAdmText('maroon')
+            setAmdBodyColor('#B2CBFF')
+
+            setAdmFooterBg('var(--admHeadColor)')
+            setAdmFooterText('maroon')
+
+        }
+        else {
+            setAdmBg('var(--cardHeadColorDark)')
+            setAdmText('white')
+            setAmdBodyColor('gray')
+
+
+            setAdmFooterBg('var(--cardHeadColorDark)')
+            setAdmFooterText('white')
+        }
+    }
     return (
         <>
-            <div class="row d-flex mx-0 px-0 align-items-center justify-content-center " style={{ marginTop: '4rem' }}>
-                <div class="col-12 fw-bolder text-center pt-4 shadow-sm border-bottom "
-                    style={{ color: 'maroon', background: 'var(--admHeadColor)' }} id="admReg">
-                    <h3 class="fs-1  "> <b>CANDIDATE REGISTRATION FORM FOR NEW ADMISSION</b> </h3>
-                    <p class="fs-5 body-text-secondary">
-                        <marquee behavior="alternate" direction=""> ऑनलाइन पंजीकरण करने हेतु पंजीकरण फॉर्म </marquee>
-                    </p> <a href="verificaion.html" class="blink"><b> <img src="images/icon/update.gif" width="30px"
-                        alt="Updates" /> अपनी प्रमाणपत्र की स्थिति जानने के लिए क्लिक करें </b></a>
+            <div className="d-flex align-items-center justify-content-between fixed-top "
+                style={{ background: 'var(--topNavBgColor)', width: '100vw !important', fontSize: '0.7rem' }}  >
+                <div className="changer-container d-flex align-items-center justify-content-center TopWelcomeNavLeft ">
+                    <button className="changer-btn" style={{ background: 'transparent !important' }}>
+                        <input type="checkbox" id="switch" className="checkbox d-none w-50" onClick={DarkMode} />
+                        <label htmlFor="switch" className="toggle">
+                            <p className="m-0 p-0 switchChild">
+                                <i className="bi bi-sun-fill " style={{ color: 'orangered' }} title="Light Mode"></i>
+                                <i className="bi bi-moon-stars-fill text-white " title="Night Mode"></i>
+                            </p>
+                        </label>
+                    </button>
+                </div>
+                <div className="TopWelcomeCenter d-flex align-items-center">
+                    <marquee scrollamount="8" width="100%">
+                        <b className="text-light text-uppercase" >
+                            <big style={{ letterSpacing: '1px' }}> Welcome to DRISHTEE COMPUTER CENTER</big>
+                        </b>
+                    </marquee>
+                </div>
+                <div className="ms-auto d-flex align-items-center justify-content-end TopWelcomeNavRight ">
+                    <a className="nav-link active text-white " id="myH2" aria-current="page" href="tel:+919918151032" title="Call-now">
+                        <img className='img-fluid' />919918151032
+                        &nbsp;&nbsp;</a>
+                    <a className="nav-link text-white " id="myH3" aria-current="page" href="#" title="E:Mail-Us">
+                        <img className='img-fluid' />
+                        ajtiwari4@gmail.com
+                        &nbsp;&nbsp;</a>
                 </div>
             </div>
-            <div style={{ background: '#B2CBFF ' }} id="AdmBodyColor" className={props.className} >
+            <div className="row d-flex mx-0 px-0 align-items-center justify-content-center " style={{ marginTop: '4rem' }}>
+                <div className="col-12 fw-bolder text-center pt-4 shadow-sm border-bottom "
+                    style={{ color: AdmText, background: AdmBg }}>
+                    <h3 className="fs-1  "> <b>CANDIDATE REGISTRATION FORM FOR NEW ADMISSION</b> </h3>
+                    <p className="fs-5 body-text-secondary">
+                        <marquee behavior="alternate" direction=""> ऑनलाइन पंजीकरण करने हेतु पंजीकरण फॉर्म </marquee>
+                    </p> <Link to="/Verification" className="blink"><b> <img src="images/icon/update.gif" width="30px"
+                        alt="Updates" /> अपनी प्रमाणपत्र की स्थिति जानने के लिए क्लिक करें </b></Link>
+                </div>
+            </div>
+            <div style={{ background: AmdBodyColor }} className={props.className} >
                 <div className="mainRegContainer" >
                     <div className="row  d-flex align-items-center justify-content-center mx-0 px-0">
                         <div className="col-12  " style={{ color: 'maroon', borderTop: 'var(--my-border)' }}>
+                            <div className="row">
+                                <div className="col">
+                                {/* <RealTimeClock /> */}
+                                </div>
+                            </div>
                             <div className="row ">
-                                <div className="col-12 py-2 text-center">
+                               <div className="col-12 pt-5 text-center">
                                     <h1 className="fw-bolder" style={{ color: 'maroon' }} id="RegHead"> Student Addmission form </h1>
                                 </div>
                             </div>
@@ -97,8 +190,10 @@ const AdmissionForm = ((props) => {
                                     <font color="red"> * </font>
                                 </label>
                                     <div className="input-group mb-3"> <i className="bi bi-image input-group-text "></i> <input
-                                        className="form-control form-control-sm py-2 " id="formFileSm" type="file" onChange={(event) => { setImage(event.target.files[0]); setUploadStatus(false) }} />
-                                        {uploadStatus ? <span>Uploaded</span> : <button className="btn btn-primary btn-small" onClick={() => { uploadPhoto() }}>Upload Now</button>}
+                                        className="form-control form-control-sm py-2 " id="formFileSm" type="file"
+                                        onChange={(event) => { setImage(event.target.files[0]); setUploadStatus(false) }} />
+                                        {uploadStatus ? <span>Uploaded</span> : <button className="btn btn-primary btn-small"
+                                            onClick={() => { uploadPhoto() }}>Upload Now</button>}
                                     </div>
                                 </div>
                                 <div className="col-md-4"> <label htmlFor="validationCustom01" className="form-label">Name of Student <span
@@ -276,15 +371,27 @@ const AdmissionForm = ((props) => {
                                     </div>
                                 </div>
 
+                                <div className="col-md-8 bg-primary"> 
+                                
+        <div className="g-recaptcha" data-sitekey="6LeSkxwpAAAAAJr0__9WFMn2k3bJ9EW1eT52aaqm"></div>
+                                
+                                   </div>
+
                             </div>
-                            <div className="col-12  px-2 py-3 my-4" style={{ background: 'rgb(240, 173, 78)' }} id="declarationBg">
+                            <div className="col-12  px-1 py-3 my-4"
+                                style={{ background: AdmFooterBg, color: AdmFooterText }} id="declarationBg">
+
                                 <div className="form-check">
-                                    <div className="bg-success-subtle p-2 rounded rounded-pill d-inline">
-                                        <label className="form-check-label h5 " htmlFor="invalidCheck">
-                                            <input type="checkbox" className="validCheck" required />
+                                    <div className="bg-success-subtle text-danger p-2 rounded rounded-pill d-inline">
+                                        <label className="form-check-label h5" htmlFor="invalidCheck">
+                                            <input
+                                                type="checkbox"
+                                                className="validCheck"
+                                                required
+                                                onChange={(e) => setCheckboxChecked(e.target.checked)}
+                                            />
                                             <span className="icon"> </span>
-                                            <span
-                                                style={{ fontSize: '1.2rem !important', color: 'maroon !important' }}>Declaration</span>
+                                            <span style={{ fontSize: '1.2rem !important' }}>Declaration</span>
                                             <span className="text-body-secondary"> / घोषणा </span>
                                         </label>
                                     </div>
@@ -300,11 +407,26 @@ const AdmissionForm = ((props) => {
                                         लिए कॉल, ई-मेल और एसएमएस प्राप्त होते हैं तो मुझे कोई आपत्ति नहीं है।</small> </p>
                                 </div>
                                 <div className="col-12 ms-2">
-                                    {
-                                        submit ? <button className="btn btn-succuss ms-3 " id="checkBtn" type='button'>Submitted Succussfull</button> :
-                                            <button className="btn btn-primary ms-3 " id="checkBtn" type='button' onClick={() => { postForm() }}>Submit</button>
-                                    }
-                                    <div className="text-danger">{message}</div>
+                                    {submit ? (
+                                        <button className="btn btn-succuss ms-3" id="checkBtn" type="button">
+                                            Submitted Successfully
+                                        </button>
+                                    ) : (
+                                        <button
+                                            className="btn btn-primary ms-3"
+                                            id="checkBtn"
+                                            type="button"
+                                            onClick={() => {
+                                                if (checkboxChecked) {
+                                                    postForm();
+                                                }
+                                            }}
+                                            disabled={!checkboxChecked}
+                                        >
+                                            Submit
+                                        </button>
+                                    )}
+                                    <div className="text-danger d-inline px-1">{message}</div>
                                 </div>
                             </div>
                         </div>

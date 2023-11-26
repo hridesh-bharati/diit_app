@@ -1,16 +1,32 @@
+import { Link } from 'react-router-dom';
 import React, { useEffect, useState, useContext } from 'react'
 import AdmissionForm from './AdmissionForm'
-import 'react-toastify/dist/ReactToastify.css'
 import ConfermModal from './tools/ConfermModal';
 import { UniversalContext } from '../context/universal';
+import { Modal, Button } from 'react-bootstrap';
+import MyFormComponent from './tools/DataModal';
+
+const showNotes = () => {
+	alert("Student has been deleted from your data base.")
+}
+
 export default function Admin() {
+	const [showModal, setShowModal] = useState(false);
+	const handleModalClose = () => setShowModal(false);
+	const handleModalShow = () => setShowModal(true);
 	const { confermModal, setConfermModal } = useContext(UniversalContext)
 	const [allStudent, setAllStudent] = useState([]);
 	const getStudentList = () => {
-		fetch('http://localhost:3000/studentList')
+		fetch('http://localhost:3000/admin/studentList', {
+			headers: {
+				"Authorization": localStorage.getItem("aJwt")
+			}
+		})
 			.then(res => res.json())
 			.then(data => {
-				setAllStudent(data);
+				if (!data.error) {
+					setAllStudent(data);
+				}
 			}).catch((error) => {
 				console.log(error);
 			})
@@ -19,8 +35,38 @@ export default function Admin() {
 		getStudentList();
 	}, [])
 	return (
-		<>
-			<header className="p-0  shadow d-flex align-content-center bg-primary shadow-sm w-100" style={{ marginTop: '4rem' }} id="adminHeader">
+		<div style={{ background: '#B2CBFF' }}>
+			<div className="d-flex align-items-center justify-content-between fixed-top "
+				style={{ background: 'var(--topNavBgColor)', width: '100vw !important', fontSize: '0.7rem' }}  >
+				<div className="changer-container d-flex align-items-center justify-content-center TopWelcomeNavLeft ">
+					<button className="changer-btn" style={{ background: 'transparent !important' }}>
+						<input type="checkbox" id="switch" className="checkbox d-none w-50" onClick={'DarkMode'} />
+						<label htmlFor="switch" className="toggle">
+							<p className="m-0 p-0 switchChild">
+								<i className="bi bi-sun-fill " style={{ color: 'orangered' }} title="Light Mode"></i>
+								<i className="bi bi-moon-stars-fill text-white " title="Night Mode"></i>
+							</p>
+						</label>
+					</button>
+				</div>
+				<div className="TopWelcomeCenter d-flex align-items-center">
+					<marquee scrollamount="8" width="100%">
+						<b className="text-light text-uppercase" >
+							<big style={{ letterSpacing: '1px' }}> Welcome to DRISHTEE COMPUTER CENTER</big>
+						</b>
+					</marquee>
+				</div>
+				<div className="ms-auto d-flex align-items-center justify-content-end TopWelcomeNavRight ">
+					<a className="nav-link active text-white " id="myH2" aria-current="page" href="tel:+919918151032" title="Call-now">
+						<img className='img-fluid' />919918151032
+						&nbsp;&nbsp;</a>
+					<a className="nav-link text-white " id="myH3" aria-current="page" href="#" title="E:Mail-Us">
+						<img className='img-fluid' />
+						ajtiwari4@gmail.com
+						&nbsp;&nbsp;</a>
+				</div>
+			</div>
+			<header className="p-0  shadow d-flex align-items-center bg-primary shadow-sm w-100" style={{ marginTop: '4rem' }} id="adminHeader">
 				<div className="row  px-0 mx-0 myFlex2 w-100">
 					<div className="col-md-10 mx-0 px-0 ">
 						<div className="row px-0 mx-0  ">
@@ -45,7 +91,7 @@ export default function Admin() {
 					</div>
 					<div className="col-md-2 px-0 mx-0 d-none d-md-block  justify-content-between   ">
 						<div className="row px-0 mx-0 ">
-							<div className="col-md-12   align-content-center justify-content-evenly">
+							<div className="col-md-12   align-items-center justify-content-evenly">
 								<div className="myFlex2">
 									<button type="button" className="btn bg-secondary-subtle mx-3 position-relative" data-bs-toggle="modal"
 										data-bs-target="#MessageModal">
@@ -65,7 +111,7 @@ export default function Admin() {
 					</div>
 				</div>
 			</header>
-			{confermModal && <ConfermModal />}
+
 			<div className="row mx-0 px-0">
 				<div className="col-12 mx-0 px-0  ">
 					<div className="row  mx-0 px-0 ">
@@ -85,7 +131,9 @@ export default function Admin() {
 											data-bs-parent="#accordionFlushExample">
 											<div className="accordion-body">
 												<button className="nav-link active w-100" data-bs-toggle="pill" data-bs-target="#v-pills-home"
-													type="button" role="tab" onClick={() => { getStudentList() }}> <i className="fa fa-user-circle-o"></i> All Students</button>
+													type="button" role="tab" onClick={() => { getStudentList() }}> <i className="bi bi-search"></i> Search Students</button>
+												<button className="nav-link w-100" data-bs-toggle="pill" data-bs-target="#StudentDataBase"
+													type="button" role="tab"> <i className="bi bi-people-fill"></i> All Students</button>
 												<button className="nav-link w-100" data-bs-toggle="pill" data-bs-target="#v-pills-profile"
 													type="button" role="tab"> <i className="bi bi-person-plus-fill"></i> Add Students</button>
 												<button className="nav-link w-100" data-bs-toggle="pill" data-bs-target="#v-pills-settings"
@@ -98,9 +146,8 @@ export default function Admin() {
 									<div className="accordion-item">
 										<h2 className="accordion-header ">
 											<button className="accordion-button bg-primary text-white accordianShadowHover collapsed"
-												type="button" data-bs-toggle="collapse" data-bs-target="#AdmimPanel" aria-expanded="false"
-												aria-controls="flush-collapseOne">
-												<i className="fa fa-graduation-cap" aria-hidden="true"></i> &nbsp; Admin
+												type="button" data-bs-toggle="collapse" data-bs-target="#AdmimPanel" >
+												<i class="fa fa-user-circle" aria-hidden="true"></i> &nbsp; Admin
 											</button>
 										</h2>
 										<div id="AdmimPanel" className="accordion-collapse collapse" data-bs-parent="#AdminSection">
@@ -113,7 +160,7 @@ export default function Admin() {
 												<button className="nav-link w-100" data-bs-toggle="pill" data-bs-target="#AdminLogin"
 													type="button" role="tab"> <i className="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
 													Log in</button>
-												<button className="nav-link w-100" data-bs-toggle="pill" data-bs-target="#AdminLogOut"
+												<button onClick={() => { localStorage.removeItem('aJwt') }} className="nav-link w-100" data-bs-toggle="pill"
 													type="button" role="tab"> <i className="fa fa-arrow-circle-o-right" aria-hidden="true"></i>
 													Log Out</button>
 											</div>
@@ -127,7 +174,7 @@ export default function Admin() {
 											<button className="accordion-button bg-primary text-white accordianShadowHover collapsed"
 												type="button" data-bs-toggle="collapse" data-bs-target="#allCourses"
 												aria-expanded="false" aria-controls="allCourses">
-												<i className="fa fa-graduation-cap" aria-hidden="true"></i> &nbsp; Courses
+												<i className="fa fa-book" aria-hidden="true"></i> &nbsp; Courses
 											</button>
 										</h2>
 										<div id="allCourses" className="accordion-collapse collapse"
@@ -143,20 +190,20 @@ export default function Admin() {
 									</div>
 								</div>
 
-								<div className="accordion accordion-flush" id="accordionFlushExample">
+								<div className="accordion accordion-flush" id="NewOffer">
 									<div className="accordion-item">
 										<h2 className="accordion-header ">
 											<button className="accordion-button bg-primary text-white accordianShadowHover collapsed"
 												type="button" data-bs-toggle="collapse" data-bs-target="#Offers"
 												aria-expanded="false" aria-controls="Offers">
-												<i className="fa fa-graduation-cap" aria-hidden="true"></i> &nbsp; Offers
+												<i className="fa fa-graduation-cap" aria-hidden="true"></i> &nbsp;   Offer
 											</button>
 										</h2>
 										<div id="Offers" className="accordion-collapse collapse"
-											data-bs-parent="#accordionFlushExample">
+											data-bs-parent="#NewOffer">
 											<div className="accordion-body">
-												<button className="nav-link  w-100" data-bs-toggle="pill" data-bs-target="#OffersForNewStudent"
-													type="button" role="tab" > <i className="fa fa-user-circle-o"></i>  ccc</button>
+												<button className="nav-link small w-100" data-bs-toggle="pill" data-bs-target="#OffersForNewStudent"
+													type="button" role="tab" > For New Students</button>
 
 											</div>
 										</div>
@@ -166,13 +213,13 @@ export default function Admin() {
 
 							</div>
 						</div>
-						<div className="col-md-10 container   py-2 px-md-0 px-lg-4">
-							<div className="tab-content mx-0 px-0 pb-5" id="v-pills-tabContent">
+						<div className="col-md-10 container m-0 p-0">
+							<div className="tab-content mx-1 px-1 pb-5" id="v-pills-tabContent">
 								<div className="tab-pane fade show active" id="v-pills-home" role="tabpanel"
-									aria-labelledby="v-pills-home-tab" tabindex="0">
+									aria-labelledby="v-pills-home-tab" tabIndex="0">
 									<div className="mx-0 px-0">
 										<div className="row mb-5">
-											<div className="col-xl-3 col-xxl-3 col-sm-6 my-2">
+											<div className="col-xl-4 col-xxl-4 col-sm-6 my-2">
 												<div className="widget-stat myshadow2 border-0 card bg-primary">
 													<div className="card-body">
 														<div className="media">
@@ -187,7 +234,7 @@ export default function Admin() {
 													</div>
 												</div>
 											</div>
-											<div className="col-xl-3 col-xxl-3 col-sm-6 my-2">
+											<div className="col-xl-4 col-xxl-4 col-sm-6 my-2">
 												<div className="widget-stat myshadow2 border-0 card bg-warning d-flex">
 													<div className="card-body">
 														<div className="media">
@@ -202,7 +249,7 @@ export default function Admin() {
 													</div>
 												</div>
 											</div>
-											<div className="col-xl-3 col-xxl-3 col-sm-6 my-2">
+											<div className="col-xl-4 col-xxl-4 col-sm-6 my-2">
 												<div className="widget-stat myshadow2 border-0 card bg-voilet">
 													<div className="card-body">
 														<div className="media">
@@ -217,7 +264,7 @@ export default function Admin() {
 													</div>
 												</div>
 											</div>
-											<div className="col-xl-3 col-xxl-3 col-sm-6 my-2">
+											{/* <div className="col-xl-4 col-xxl-4 col-sm-6 my-2">
 												<div className="widget-stat myshadow2 border-0 card bg-danger">
 													<div className="card-body">
 														<div className="media">
@@ -231,21 +278,25 @@ export default function Admin() {
 														</div>
 													</div>
 												</div>
-											</div>
+											</div> */}
 										</div>
 										<div className="row mx-0 px-0  myshadow">
-											<div className="col-12 py-2 mx-0 d-flex bg-white justify-content-between align-content-center ">
-												<div className="h2 fw-bold myFlex2 text-primary"><b>All Students</b></div>
-												{/* <div className="myFlex2">
-                                       <button className="btn btn-primary rounded-0"> <i className="fa fa-plus-circle"
-                                          aria-hidden="true"></i> Add New</button>
-                                    </div> */}
+											<div className="col-12 py-2 mx-0 px-0 d-flex bg-white justify-content-between align-items-center ">
+												<div className="h2 fw-bold myFlex2 text-primary"><b className='px-2 text-uppercase'>All Students</b></div>
+												<div className="myFlex2">
+													<button className="btn btn-primary rounded-0 d-flex align-items-center">  <i className="fa fa-plus-circle"
+														aria-hidden="true"></i>
+														<Link to="/AdmissionForm" className="nav-link" >&nbsp;
+															Add New</Link> </button>
+
+
+												</div>
 											</div>
 										</div>
 										<div className="row mx-0 px-0  py-2 bg-white text-primary  myshadow"
 											style={{ borderTop: 'var(--my-border)' }}>
 											<div
-												className="col-12 mx-0  px-2 fw-medium d-flex justify-content-between align-content-center ">
+												className="col-12 mx-0  px-2 fw-medium d-flex justify-content-between align-items-center ">
 												<div className="d-flex  fw-bolder">
 													<p id="All small"> Total Students List</p>
 												</div>
@@ -263,12 +314,12 @@ export default function Admin() {
 														<th>Address</th>
 														<th>Mobile</th>
 														<th>Admission Date</th>
-														<th >Action</th>
+														<th> vvAction</th>
 													</tr>
 												</thead>
 												<tbody>
 													{
-														allStudent.map((student) => {
+														(allStudent.length >= 1) && allStudent.map((student) => {
 															return (
 																<tr role="row" className="odd" id={student._id}>
 																	<td><img className="rounded-circle" width="40" src={student.photo} />
@@ -279,8 +330,13 @@ export default function Admin() {
 																	<td>{student.mobileNumber}</td>
 																	<td>{student.dob.slice(0, 10)}</td>
 																	<td>
-																		<button type="button" class="btn btn-sm bg-seconday bg-danger text-white"
-																			onClick={() => { setConfermModal(true) }}>
+
+																		<button
+																			type="button"
+																			id="LounchModal"
+																			className="btn btn-sm bg-seconday bg-danger text-white"
+																			onClick={handleModalShow}
+																		>
 																			<i class="fa fa-trash-o" aria-hidden="true"></i>
 																		</button>
 																	</td>
@@ -289,20 +345,41 @@ export default function Admin() {
 														})
 													}
 												</tbody>
+
+												<Modal show={showModal} onHide={handleModalClose} animation={false} >
+													<Modal.Header className='bg-primary ' closeButton >
+														<Modal.Title>
+															<div className="h2 fw-bold myFlex2 text-white"><b className="px-2 text-uppercase">   DELETE STUDENT'S</b></div>
+														</Modal.Title>
+													</Modal.Header>
+													<Modal.Body>
+														<MyFormComponent />
+
+													</Modal.Body>
+													<Modal.Footer>
+														<Button variant="secondary" onClick={handleModalClose}>
+															Close
+														</Button>
+														<Button variant="danger" onClick={showNotes}>Delete</Button>
+													</Modal.Footer>
+												</Modal>
+
+
+
 											</table>
 										</div>
 									</div>
 								</div>
-								<div className="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab"
-									tabindex="0">
-									<AdmissionForm />
+								<div className="tab-pane fade mx-0 px-0 position-absolute top-0 mt-5 pt-4" id="v-pills-profile" role="tabpanel"
+									tabIndex="0">
+									<AdmissionForm className="mx-0 px-0 border border-primary bg-white " />
 								</div>
 								<div className="tab-pane fade" id="v-pills-settings" role="tabpanel"
-									aria-labelledby="v-pills-settings-tab" tabindex="0">
+									aria-labelledby="v-pills-settings-tab" tabIndex="0">
 									<div className="row">
-										<div className="col-12">
-											<div className=" py-2 mx-0 d-flex bg-white justify-content-between align-content-center ">
-												<div className="h2 fw-bold myFlex2 text-primary"><b>All Students</b></div>
+										<div className="col-12 mx-0 px-0">
+											<div className=" py-2 mx-0 d-flex bg-white justify-content-between align-items-center ">
+												<div className="h2 fw-bold myFlex2 text-primary"><b className='px-2 text-uppercase '>  All Students</b>  </div>
 												{/* <div className="myFlex2">
                                        <button className="btn btn-primary rounded-0"> <i className="fa fa-plus-circle"
                                           aria-hidden="true"></i> Add New</button>
@@ -352,21 +429,124 @@ export default function Admin() {
 										</table>
 									</div>
 								</div>
-								<div className="tab-pane fade" id="AdminProfile" role="tabpanel" tabindex="0">
-									<div className="row">
-										<div className="col-12">
-											<div className="row">
-												Hridesh Admin1
+								<div className="tab-pane fade" id="StudentDataBase" role="tabpanel"
+									tabIndex="0">
+									<div className="row  mx-0 px-0" >
+										<div className="col-12 mx-0 px-0">
+											<div className=" py-2 mx-0 d-flex bg-white justify-content-between align-items-center ">
+												<div className="h2 fw-bold myFlex2 text-primary"><b className="px-2 text-uppercase"> All Students</b></div>
+
+											</div>
+										</div>
+										<table className="mx-0 px-0 table table-success  table-striped myshadow" id='StudentDataBase'>
+											<thead>
+												<tr>
+													<td rowSpan={3}><img className="rounded-circle m-0 p-0" width="40" src="images/team/team-4.jpg" alt='DIIT' /></td>
+													<th>Name</th>
+													<th>Mother's Name</th>
+													<th>Father's Name</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<th>921</th>
+													<td>Hridesh Bharati</td>
+													<td>Digvijay</td>
+													<td>balwanti</td>
+												</tr>
+												<tr>
+													<th>Gender</th>
+													<th>Address</th>
+													<th>Contact</th>
+													<th>Date of Birth</th>
+												</tr>
+												<tr>
+													<td>Male</td>
+													<td>Bajahi Post-ledi farm Nichlaul</td>
+													<td>7267995307</td>
+													<td>15:05:2003</td>
+												</tr>
+												<tr>
+													<th>Course</th>
+													<th>Date of Reg.</th>
+													<th>Passing year</th>
+													<th>Percentages</th>
+												</tr>
+												<tr>
+													<td>ADCA</td>
+													<td>2019</td>
+													<td>2021</td>
+													<td>96%</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+
+
+
+								<div className="tab-pane fade" id="AdminProfile" role="tabpanel" tabIndex="0">
+									<div className="row m-auto my-2">
+										<div className="col-12 bg-white myshadow p-2 ">
+											<div className="row bg-white mx-0 px-0">
+												<section class="section">
+													<div class="container ">
+														<div class="row align-items-center flex-row-reverse">
+															<div class="col-md-8  border-bottom ">
+																<div class="about-text">
+																	<div class="row">
+																		<h1 className='fw-bolder text-primary'>Mr. Ajay Tiwari</h1>
+																		<hr />
+																		<div class="col-6">
+																			<div class="media">
+																				<label>Birthday</label>
+																				<p>4th april 1998</p>
+																			</div>
+																			 
+																			<div class="media">
+																				<label>Address</label>
+																				<p>California, USA</p>
+																			</div>
+																		</div>
+																		<div class="col-6">
+																			<div class="media">
+																				<label>E-mail</label>
+																				<p>info@domain.com</p>
+																			</div>
+																			<div class="media">
+																				<label>Profession</label>
+																				<p>	Lawyer</p>
+																			</div>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<div class="col-md-4  d-flex text-center flex-column">
+																<div class="about-avatar">
+																	<img src="images/team/team-1.png" title="" alt="" />
+																</div>
+															</div>
+														</div>
+													</div>
+													<div className="px-4 pb-5 bg-body-tertiary">
+
+														<h3 class="dark-color fw-bolder text-warning">About Me</h3>
+														<h6 class="theme-color ">A Lead UX &amp; UI designer based in DIIT</h6>
+														<p>I <span className='bg-warning-subtle '>design and develop </span> services for customers of all sizes, specializing in creating stylish, modern websites, web services and online stores. My passion is to design digital user experiences through the bold interface and meaningful interactions.</p>
+
+
+													</div>
+												</section>
 											</div>
 										</div>
 									</div>
 								</div>
-								<div className="tab-pane fade" id="NewAccount" role="tabpanel" tabindex="0">
+								<div className="tab-pane fade" id="NewAccount" role="tabpanel" tabIndex="0">
 									<div className="row myflex d-flex justify-content-center my-4">
 										<div className="col-12 col-md-8 bg-white py-3 myshadow">
 											<div className="p-2">
 												<div className="text-center">
-													<h1 className="h4 text-gray-900 mb-4 text-primary">Create an Account!</h1>
+													<h1 className="h4 text-gray-900 mb-4 text-primary">Create Account!</h1>
 												</div>
 												<form className="user">
 													<div className="form-group row my-2">
@@ -416,7 +596,7 @@ export default function Admin() {
 										</div>
 									</div>
 								</div>
-								<div className="tab-pane fade" id="AdminLogin" role="tabpanel" tabindex="0">
+								<div className="tab-pane fade" id="AdminLogin" role="tabpanel" tabIndex="0">
 									<div className="row myflex d-flex justify-content-center my-4">
 										<div className="col-12 col-md-6 bg-white py-3 myshadow">
 											<form id="loginForm">
@@ -444,20 +624,18 @@ export default function Admin() {
 										</div>
 									</div>
 								</div>
-								<div className="tab-pane fade" id="AdminLogOut" role="tabpanel" tabindex="0">
+								<div className="tab-pane fade" id="AdminProfile" role="tabpanel" tabIndex="0">
 									<div className="row myflex d-flex justify-content-center my-4">
-										<div className="col-12">
+										<div className="col-12 col-md-11 bg-white py-3 myshadow">
 											<div className="row">
 												<div className="col-md-4">
 													<div className="row">
-														<div className="col-md-11 d-flex justify-content-center">
-															<div className="card" style={{ width: '18rem' }}>
-																<img src="Hb.jpg" width="20" className="img-fluid card-img-top" alt="..." />
-																<div className="card-body">
-																	<h5 className="card-title">Card title</h5>
-																	<p className="card-text">Some quick example text to build on the card title and
-																		make up the bulk of the card's content.</p>
-																	<a href="#" className="btn btn-primary">Go somewhere</a>
+														<div className="col-md-11  d-flex justify-content-center">
+															<div className="card px-3 " >
+																<img src="images/team/team-1.png" className="img-fluid card-img-top" alt="..." />
+																<div className="card-body text-center">
+																	<h5 className="card-title">Ajay Tiwari</h5>
+																	<p className="card-text">Web Developer || Programmer </p>
 																</div>
 															</div>
 														</div>
@@ -466,7 +644,7 @@ export default function Admin() {
 												<div className="col-md-8">
 													<div className="row">
 														<div className="col-md-11">
-															<div className="card">
+															<div className="card ">
 																<div className="card-body">
 																	<div className="profile-personal-info pt-4">
 																		<h4 className="text-primary mb-4">Personal Information</h4>
@@ -475,8 +653,7 @@ export default function Admin() {
 																				<h5 className="f-w-500">Name <span className="pull-right">:</span>
 																				</h5>
 																			</div>
-																			<div className="col-lg-9 col-md-8 col-sm-6 col-6"><span>Hridesh
-																				Bharati</span>
+																			<div className="col-lg-9 col-md-8 col-sm-6 col-6"><span>Ajay Tiwari</span>
 																			</div>
 																		</div>
 																		<div className="row mb-4">
@@ -485,25 +662,25 @@ export default function Admin() {
 																				</h5>
 																			</div>
 																			<div className="col-lg-9 col-md-8 col-sm-6 col-6">
-																				<span>info@example.com</span>
+																				<span>ajtiwari4@gmail.com</span>
 																			</div>
 																		</div>
 																		<div className="row mb-4">
 																			<div className="col-lg-3 col-md-4 col-sm-6 col-6">
-																				<h5 className="f-w-500">Age <span className="pull-right">:</span>
+																				<h5 className="f-w-500">Mobile <span className="pull-right">:</span>
 																				</h5>
 																			</div>
-																			<div className="col-lg-9 col-md-8 col-sm-6 col-6"><span>20</span>
+																			<div className="col-lg-9 col-md-8 col-sm-6 col-6"><span>9918151032</span>
 																			</div>
 																		</div>
 																		<div className="row mb-4">
 																			<div className="col-lg-3 col-md-4 col-sm-6 col-6">
-																				<h5 className="f-w-500">Location <span className="pull-right">:</span>
+																				<h5 className="f-w-500">Address <span className="pull-right">:</span>
 																				</h5>
 																			</div>
-																			<div className="col-lg-9 col-md-8 col-sm-6 col-6"><span>Rosemont Avenue
-																				Melbourne,
-																				Florida</span>
+																			<div className="col-lg-9 col-md-8 col-sm-6 col-6"><span>
+																				Harredih mohalla , ward No. 04 Nichlaul, Maharajganj
+																			</span>
 																			</div>
 																		</div>
 																	</div>
@@ -513,6 +690,10 @@ export default function Admin() {
 													</div>
 												</div>
 											</div>
+										</div>
+										<div className="row m-2 d-flex justify-content-evenly ">
+											<div data-target="" className="col-3 mx-1  btn btn-primary"> Profile</div>
+											<div data-target="" className="col-3 mx-1  btn btn-primary">Edit </div>
 										</div>
 									</div>
 								</div>
@@ -578,6 +759,6 @@ export default function Admin() {
 					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	)
 }

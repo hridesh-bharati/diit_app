@@ -1,7 +1,87 @@
- export default function  WebDevelopment() {
+import { Link } from "react-router-dom"
+import { useState } from "react";
+export default function WebDevelopment() {
+    const [DiplomaData, setDiplomaData] = useState('var(--mainBgcolor)')
+    const [DiplomaText, setDiplomaText] = useState('#212329')
+    const [DiplomaTitle, setDiplomaTitle] = useState('white')
+    const [cwdCourseBg, setcwdCourseBg] = useState('white')
+    const [cwdCourseBgBorder, setcwdCourseBgBorder] = useState('transparent')
+    const [WebLeftCourse, setWebLeftCourse] = useState('white')
+    const [featureBg, setfeatureBg] = useState('white')
+    const [featureBgText, setfeatureBgText] = useState('#212329')
+    const [featureBorder, setfeatureBorder] = useState('transparent')
+    const [QUESTION, setQUESTION] = useState('white')
+    const [QUESTIONTBorder, setQUESTIONBorder] = useState('#212329')
+    const [dwdCourseBg, setdwdCourseBg] = useState('white')
+    const [dwdCourseBgBorder, setdwdCourseBgBorder] = useState('transparent')
+    const DarkMode = () => {
+        if (DiplomaData === 'black') {
+            setDiplomaData('var(--mainBgcolor)')
+            setDiplomaText('#212329')
+            setDiplomaTitle('white')
+            setcwdCourseBg('white')
+            setcwdCourseBgBorder('transparent')
+            setdwdCourseBg('white')
+            setdwdCourseBgBorder('transparent')
+            setWebLeftCourse('white')
+            setfeatureBg('white')
+            setfeatureBgText('#212329')
+            setfeatureBorder('transparent')
+            setQUESTION('white')
+            setQUESTIONBorder('transparent')
+        }
+        else {
+            setDiplomaData('black')
+            setDiplomaText('white')
+            setDiplomaTitle('var(--MyDarkGrayBg)')
+            setcwdCourseBg('var(--MyDarkGrayBg)')
+            setcwdCourseBgBorder('1px solid gray')
+            setdwdCourseBg('var(--MyDarkGrayBg)')
+            setdwdCourseBgBorder('1px solid #202020')
+            setWebLeftCourse('var(--MyDarkGrayBg)')
+            setfeatureBg('var(--MyDarkGrayBg)')
+            setfeatureBgText('white')
+            setfeatureBorder('1px solid #202020')
+            setQUESTION('var(--MyDarkGrayBg)')
+            setQUESTIONBorder('1px solid #202020')
+        }
+    }
     return (
-        <>
-            <div className="container-fluid text-center p-0 pt-3  border-bottom  myshadow" style={{ background: 'white', marginTop:'4rem' }}
+        <div style={{ background: DiplomaData, color: DiplomaText }} >
+            <div className="d-flex align-items-center justify-content-between fixed-top "
+                style={{ background: 'var(--topNavBgColor)', width: '100vw !important', fontSize: '0.7rem' }}  >
+                <div className="changer-container d-flex align-items-center justify-content-center TopWelcomeNavLeft ">
+                    <button className="changer-btn" style={{ background: 'transparent !important' }}>
+                        <input type="checkbox" id="switch" className="checkbox d-none w-50" onClick={DarkMode} />
+                        <label htmlFor="switch" className="toggle">
+                            <p className="m-0 p-0 switchChild">
+                                <i className="bi bi-sun-fill " style={{ color: 'orangered' }} title="Light Mode"></i>
+                                <i className="bi bi-moon-stars-fill text-white " title="Night Mode"></i>
+                            </p>
+                        </label>
+                    </button>
+                </div>
+                <div className="TopWelcomeCenter d-flex align-items-center">
+                    <marquee scrollamount="8" width="100%">
+                        <b className="text-light text-uppercase" >
+                            <big style={{ letterSpacing: '1px' }}> Welcome to DRISHTEE COMPUTER CENTER</big>
+                        </b>
+                    </marquee>
+                </div>
+                <div className="ms-auto d-flex align-items-center justify-content-end TopWelcomeNavRight ">
+                    <Link className="nav-link active text-white " id="myH2" aria-current="page" to="tel:+919918151032" title="Call-now">
+                        <img className='img-fluid' />919918151032
+                        &nbsp;&nbsp;</Link>
+                    <Link className="nav-link text-white " id="myH3" aria-current="page" to="#" title="E:Mail-Us">
+                        <img className='img-fluid' />
+                        ajtiwari4@gmail.com
+                        &nbsp;&nbsp;</Link>
+                </div>
+            </div>
+            <div className="container-fluid text-center p-0 pt-3  border-bottom  myshadow" style={{
+                background: DiplomaTitle,
+                marginTop: '3.7rem'
+            }}
                 id="doeaccHead">
                 <div className="col-md-12 text-uppercase">
                     <h1 className="fw-bolder">
@@ -18,14 +98,16 @@
                         <div className="col-md-12 m-0 p-0">
                             <div className="row">
                                 <div className="col-md-3 mx-0 px-0">
-                                    <h5 className="p-0 m-0  myshadow" id="AskQuestions" style={{ background: 'white' }}><a
-                                        href="contact.html"
-                                        className="nav-link d-flex  justify-content-center p-2  hoverTextBlue blink">ASK
-                                        A QUESTION &nbsp; &nbsp; <i className="bi bi-person-circle text-danger"></i></a> </h5>
+                                    <h5 className="p-0 m-0  myshadow" id="AskQuestions"
+                                        style={{ background: QUESTION, color: 'white', border: QUESTIONTBorder }}>
+                                        <Link to="../Contact"
+                                            className="nav-link d-flex  justify-content-center p-2  hoverTextBlue blink">ASK
+                                            A QUESTION &nbsp; &nbsp; <i className="bi bi-person-circle text-danger"></i></Link> </h5>
                                 </div>
                                 <div className="col-md-9 myshadow d-flex align-items-center " style={{
-                                    background: 'white',
-                                    color: 'black'
+                                    background: featureBg,
+                                    color: featureBgText,
+                                    border: featureBorder
                                 }} id="WebMarquee">
                                     <div className="card-footer  d-flex align-items-center justify-content-center p-1 ">
                                         <marquee className=" fw-medium " direction="left"  > ISO 9001 :
@@ -41,7 +123,7 @@
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-2 myshadow d-flex align-items-start" style={{ background: 'white' }} id="WebLeftCourse">
+                    <div className="col-md-2 myshadow d-flex align-items-start" style={{ background: WebLeftCourse }} id="WebLeftCourse">
                         <table style={{ position: 'absolute' }}>
                             <tr>
                                 <th className="col-12 px-4  bg-warning  w-100 myshadow">Get More Info........</th>
@@ -137,8 +219,8 @@
                     </div>
                     <div className="col-md-10 mx-0 ">
                         <div className="diplomaTable  pb-3">
-
-                            <div className=" my-2 myshadow " id="MainWebBg" style={{ background: 'white' }}>
+                            <div className=" my-2 myshadow " id="MainWebBg"
+                                style={{ background: cwdCourseBg, border: cwdCourseBgBorder }}>
                                 <div data-aos="fade-down ">
                                     <table className="table table-bordered border-primary table-sm table-hover">
                                         <tr className="headText">
@@ -149,87 +231,85 @@
                                             <th style={{ borderLeft: 'none' }}> DURATION: 6 MONTHS </th>
                                         </tr>
                                         <tr>
-                                            <td style={{
-                                                background: 'var( --course-bg) !important'
-                                            }} colSpan="4" >
+                                            <td className="text-danger" colSpan="4" >
                                                 HTML
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td id="WebTextOne" className="transparentTableData">Web Programming Introduction </td>
-                                            <td id="WebTextTwo" className="transparentTableData">HTML-Introduction </td>
-                                            <td id="WebTextThree" className="transparentTableData"> Basic Formatting Tags </td>
+                                            <td className="transparentTableData">Web Programming Introduction </td>
+                                            <td className="transparentTableData">HTML-Introduction </td>
+                                            <td className="transparentTableData"> Basic Formatting Tags </td>
                                         </tr>
                                         <tr>
-                                            <td id="WebTextFour" className="transparentTableData"> Grouping Using Div Span</td>
-                                            <td id="WebTextFive" className="transparentTableData"> Lists </td>
-                                            <td id="WebTextSix" className="transparentTableData"> Images </td>
+                                            <td className="transparentTableData"> Grouping Using Div Span</td>
+                                            <td className="transparentTableData"> Lists </td>
+                                            <td className="transparentTableData"> Images </td>
                                         </tr>
                                         <tr>
-                                            <td id="WebTextSeven" className="transparentTableData"> Hyperlink </td>
-                                            <td id="WebTextEight" className="transparentTableData">Table</td>
-                                            <td id="WebTextNine" className="transparentTableData"> Headers</td>
+                                            <td className="transparentTableData"> Hyperlink </td>
+                                            <td className="transparentTableData">Table</td>
+                                            <td className="transparentTableData"> Headers</td>
                                         </tr>
                                         <tr>
-                                            <td id="WebTextTen" className="transparentTableData"> Semantic Elements</td>
-                                            <td id="WebTextEleven" className="transparentTableData"> Forms </td>
-                                            <td id="WebTextTwelv" className="transparentTableData"> Media </td>
+                                            <td className="transparentTableData"> Semantic Elements</td>
+                                            <td className="transparentTableData"> Forms </td>
+                                            <td className="transparentTableData"> Media </td>
                                         </tr>
                                         <tr>
-                                            <td style={{ background: 'var( --course-bg) !important' }} className="fw-medium" colSpan="4">
+                                            <td className="fw-medium text-danger" colSpan="4">
                                                 JavaScript</td>
                                         </tr>
                                         <tr>
-                                            <td id="WebTextTherteen" className="transparentTableData"> Overview </td>
-                                            <td id="WebTextFourteen" className="transparentTableData">Syntax & Comment</td>
-                                            <td id="WebTextFifteen" className="transparentTableData">Variable </td>
+                                            <td className="transparentTableData"> Overview </td>
+                                            <td className="transparentTableData">Syntax & Comment</td>
+                                            <td className="transparentTableData">Variable </td>
                                         </tr>
                                         <tr>
-                                            <td id="WebTextSixteen" className="transparentTableData"> Operator </td>
-                                            <td id="WebTextSeventeen" className="transparentTableData">Data Types</td>
-                                            <td id="WebTextEighteen" className="transparentTableData">Functios</td>
+                                            <td className="transparentTableData"> Operator </td>
+                                            <td className="transparentTableData">Data Types</td>
+                                            <td className="transparentTableData">Functios</td>
                                         </tr>
                                         <tr>
-                                            <td id="WebTextNinteen" className="transparentTableData"> Object </td>
-                                            <td id="WebTextTwentyOne" className="transparentTableData">Event</td>
-                                            <td id="WebTextTwentyTwo" className="transparentTableData">Strings</td>
+                                            <td className="transparentTableData"> Object </td>
+                                            <td className="transparentTableData">Event</td>
+                                            <td className="transparentTableData">Strings</td>
                                         </tr>
                                         <tr>
-                                            <td id="WebTextTwentyThree" className="transparentTableData">Date & Date Methods</td>
-                                            <td id="WebTextTwentyFour" className="transparentTableData">Math</td>
-                                            <td id="WebTextTwentyFive" className="transparentTableData">Loop</td>
+                                            <td className="transparentTableData">Date & Date Methods</td>
+                                            <td className="transparentTableData">Math</td>
+                                            <td className="transparentTableData">Loop</td>
                                         </tr>
                                         <tr>
-                                            <td id="WebTextTwentySix" className="transparentTableData">Maps</td>
-                                            <td id="WebTextTwentySeven" className="transparentTableData">Errors</td>
-                                            <td id="WebTextTwentyEight" className="transparentTableData">Date & Date Methods</td>
+                                            <td className="transparentTableData">Maps</td>
+                                            <td className="transparentTableData">Errors</td>
+                                            <td className="transparentTableData">Date & Date Methods</td>
                                         </tr>
                                         <tr>
-                                            <td id="WebTextTwentyNine" className="transparentTableData">Math</td>
-                                            <td id="WebTextTherthy" className="transparentTableData">Loops</td>
+                                            <td className="transparentTableData">Math</td>
+                                            <td className="transparentTableData">Loops</td>
                                             <td className="transparentTableData text-danger bg-body-tertiary"> Assignment</td>
                                         </tr>
                                         <tr>
-                                            <td style={{ background: 'var( --course-bg) !important' }} className="fw-medium" colSpan="4">
+                                            <td className="fw-medium text-danger" colSpan="4">
                                                 ADOBE
                                                 PHOTOSHOP </td>
                                         </tr>
                                         <tr>
-                                            <td id="PsTextOne" className="transparentTableData">Introduction</td>
-                                            <td id="PsTextTwo" className="transparentTableData">Rectangular & All Tool</td>
-                                            <td id="PsTextThree" className="transparentTableData">Editing Photo in camera raw</td>
+                                            <td className="transparentTableData">Introduction</td>
+                                            <td className="transparentTableData">Rectangular & All Tool</td>
+                                            <td className="transparentTableData">Editing Photo in camera raw</td>
                                         </tr>
                                         <tr>
-                                            <td id="PsTextFour" className="transparentTableData">Free Transform, Scale,
+                                            <td className="transparentTableData">Free Transform, Scale,
                                                 Rotate Etc.</td>
-                                            <td id="PsTextFive" className="transparentTableData"> Auto Blend Layers & more..</td>
-                                            <td id="PsTextSix" className="transparentTableData">Adjustments,
+                                            <td className="transparentTableData"> Auto Blend Layers & more..</td>
+                                            <td className="transparentTableData">Adjustments,
                                                 Exposure, Curves
                                                 Color Balance</td>
                                         </tr>
                                         <tr>
-                                            <td id="PsTextSeven" className="transparentTableData">Layer Mask</td>
-                                            <td id="PsTextEight" className="transparentTableData"> 3d object creation </td>
+                                            <td className="transparentTableData">Layer Mask</td>
+                                            <td className="transparentTableData"> 3d object creation </td>
                                             <td className="transparentTableData text-danger bg-body-tertiary"> Project Work ( Web
                                                 Designing ) </td>
                                         </tr>
@@ -249,8 +329,8 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div className=" my-2 myshadow" id="MainDwdBg" style={{ background: 'white' }}>
+                            <div className=" my-2 myshadow" id="MainDwdBg"
+                                style={{ background: dwdCourseBg, border: dwdCourseBgBorder }}>
                                 <div data-aos="fade-down ">
                                     <table className="table table-bordered border-primary  table-sm table-hover">
                                         <tr className="headText">
@@ -261,112 +341,112 @@
                                             <th style={{ borderLeft: 'none' }}> DURATION: 12 MONTHS </th>
                                         </tr>
                                         <tr>
-                                            <td style={{ background: 'var( --course-bg) !important' }} colSpan="4"> M.S. Office</td>
+                                            <td className="fw-medium text-danger" colSpan="4"> M.S. Office</td>
                                         </tr>
                                         <tr>
-                                            <td id="DwdTextOne" className="transparentTableData">Fundamental of Computer </td>
-                                            <td id="DwdTextTwo" className="transparentTableData">Ms. Windows</td>
-                                            <td id="DwdTextThree" className="transparentTableData">Ms Word </td>
+                                            <td className="transparentTableData">Fundamental of Computer </td>
+                                            <td className="transparentTableData">Ms. Windows</td>
+                                            <td className="transparentTableData">Ms Word </td>
                                         </tr>
                                         <tr>
-                                            <td id="DwdTextFour" className="transparentTableData">Ms Excel </td>
-                                            <td id="DwdTextFive" className="transparentTableData">Ms Powerpoint </td>
-                                            <td id="DwdTextSix" className="transparentTableData">Ms Access </td>
+                                            <td className="transparentTableData">Ms Excel </td>
+                                            <td className="transparentTableData">Ms Powerpoint </td>
+                                            <td className="transparentTableData">Ms Access </td>
                                         </tr>
                                         <tr>
-                                            <td id="DwdTextSeven" className="transparentTableData">Internet </td>
-                                            <td id="DwdTextEight" className="transparentTableData"> Email </td>
+                                            <td className="transparentTableData">Internet </td>
+                                            <td className="transparentTableData"> Email </td>
                                             <td className="transparentTableData text-danger bg-body-tertiary"> Assignment</td>
                                         </tr>
                                         <tr>
-                                            <td style={{ background: 'var( --course-bg) !important' }} className="fw-medium" colSpan="4">
+                                            <td className="fw-medium text-danger" colSpan="4">
                                                 HTML
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td id="DwdTextNine" className="transparentTableData">web Programming Introduction </td>
-                                            <td id="DwdTextTen" className="transparentTableData">HTML-Introduction </td>
-                                            <td id="DwdTextEleven" className="transparentTableData"> Basic Formatting Tags </td>
+                                            <td className="transparentTableData">web Programming Introduction </td>
+                                            <td className="transparentTableData">HTML-Introduction </td>
+                                            <td className="transparentTableData"> Basic Formatting Tags </td>
                                         </tr>
                                         <tr>
-                                            <td id="DwdTextTwelv" className="transparentTableData"> Grouping Using Div Span</td>
-                                            <td id="DwdTextTherteen" className="transparentTableData"> Lists </td>
-                                            <td id="DwdTextFourteen" className="transparentTableData"> Images </td>
+                                            <td className="transparentTableData"> Grouping Using Div Span</td>
+                                            <td className="transparentTableData"> Lists </td>
+                                            <td className="transparentTableData"> Images </td>
                                         </tr>
                                         <tr>
-                                            <td id="DwdTextFifteen" className="transparentTableData"> Hyperlink </td>
-                                            <td id="DwdTextSixteen" className="transparentTableData">Table</td>
-                                            <td id="DwdTextSeventeen" className="transparentTableData"> Headers</td>
+                                            <td className="transparentTableData"> Hyperlink </td>
+                                            <td className="transparentTableData">Table</td>
+                                            <td className="transparentTableData"> Headers</td>
                                         </tr>
                                         <tr>
-                                            <td id="DwdTextEighteen" className="transparentTableData"> Semantic Elements</td>
-                                            <td id="DwdTextNineteen" className="transparentTableData"> Forms </td>
-                                            <td id="DwdTextTwenty" className="transparentTableData"> Images </td>
+                                            <td className="transparentTableData"> Semantic Elements</td>
+                                            <td className="transparentTableData"> Forms </td>
+                                            <td className="transparentTableData"> Images </td>
                                         </tr>
                                         <tr>
-                                            <td id="DcadTextTwentyOne" className="transparentTableData"> Graphics</td>
-                                            <td id="DwdTextTwentyTwo" className="transparentTableData"> Media </td>
-                                            <td id="DwdTextTwentyThree" className="transparentTableData"> APIs </td>
+                                            <td className="transparentTableData"> Graphics</td>
+                                            <td className="transparentTableData"> Media </td>
+                                            <td className="transparentTableData"> APIs </td>
                                         </tr>
                                         <tr>
-                                            <td style={{ background: 'var( --course-bg) !important' }} className="fw-medium" colSpan="4">
+                                            <td className="fw-medium text-danger" colSpan="4">
                                                 CSS
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td id="CssTextOne" className="transparentTableData">Introduction </td>
-                                            <td id="CssTextTwo" className="transparentTableData">Selector </td>
-                                            <td id="CssTextThree" className="transparentTableData">Background Cursor </td>
+                                            <td className="transparentTableData">Introduction </td>
+                                            <td className="transparentTableData">Selector </td>
+                                            <td className="transparentTableData">Background Cursor </td>
                                         </tr>
                                         <tr>
-                                            <td id="CssTextFour" className="transparentTableData">Text Fonts</td>
-                                            <td id="CssTextFive" className="transparentTableData">Box Model </td>
-                                            <td id="CssTextSix" className="transparentTableData">Display Positioning </td>
+                                            <td className="transparentTableData">Text Fonts</td>
+                                            <td className="transparentTableData">Box Model </td>
+                                            <td className="transparentTableData">Display Positioning </td>
                                         </tr>
                                         <tr>
-                                            <td id="CssTextSeven" className="transparentTableData"> Floats</td>
-                                            <td id="CssTextEight" className="transparentTableData">Transforms (2D 3D) </td>
-                                            <td id="CssTextNine" className="transparentTableData">Animations </td>
+                                            <td className="transparentTableData"> Floats</td>
+                                            <td className="transparentTableData">Transforms (2D 3D) </td>
+                                            <td className="transparentTableData">Animations </td>
                                         </tr>
                                         <tr>
-                                            <td id="CssTextTen" className="transparentTableData"> Display</td>
-                                            <td id="CssTextEleven" className="transparentTableData">Flex Box </td>
-                                            <td id="CssTextTwelv" className="transparentTableData">CSS Grid </td>
+                                            <td className="transparentTableData"> Display</td>
+                                            <td className="transparentTableData">Flex Box </td>
+                                            <td className="transparentTableData">CSS Grid </td>
                                         </tr>
                                         <tr>
-                                            <td id="CssTextTherteen" className="transparentTableData">CSS Grid </td>
-                                            <td id="CssTextFourteen" className="transparentTableData">Media Query </td>
+                                            <td className="transparentTableData">CSS Transitions</td>
+                                            <td className="transparentTableData">Media Query </td>
                                             <td className="transparentTableData text-danger bg-body-tertiary"> Project Work ( Web
                                                 Designing )
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td style={{ background: 'var( --course-bg) !important' }} className="fw-medium" colSpan="4">
+                                            <td className="fw-medium text-danger" colSpan="4">
                                                 JavaScript</td>
                                         </tr>
                                         <tr>
-                                            <td id="JsTextOne" className="transparentTableData"> Overview </td>
-                                            <td id="JsTextTwo" className="transparentTableData">Syntax & Comment</td>
-                                            <td id="JsTextThree" className="transparentTableData">Variable </td>
+                                            <td className="transparentTableData"> Overview </td>
+                                            <td className="transparentTableData">Syntax & Comment</td>
+                                            <td className="transparentTableData">Variable </td>
                                         </tr>
                                         <tr>
-                                            <td id="JsTextFour" className="transparentTableData"> Operator </td>
-                                            <td id="JsTextFive" className="transparentTableData">Data Types</td>
-                                            <td id="JsTextSix" className="transparentTableData">Functios</td>
+                                            <td className="transparentTableData"> Operator </td>
+                                            <td className="transparentTableData">Data Types</td>
+                                            <td className="transparentTableData">Functios</td>
                                         </tr>
                                         <tr>
-                                            <td id="JsTextSeven" className="transparentTableData"> Object </td>
-                                            <td id="JsTextEight" className="transparentTableData">Event</td>
-                                            <td id="JsTextNine" className="transparentTableData">Strings</td>
+                                            <td className="transparentTableData"> Object </td>
+                                            <td className="transparentTableData">Event</td>
+                                            <td className="transparentTableData">Strings</td>
                                         </tr>
                                         <tr>
-                                            <td id="JsTextTen" className="transparentTableData">Math</td>
-                                            <td id="JsTextEleven" className="transparentTableData">Loop</td>
-                                            <td id="JsTextTwelv" className="transparentTableData">RegXp</td>
+                                            <td className="transparentTableData">Math</td>
+                                            <td className="transparentTableData">Loop</td>
+                                            <td className="transparentTableData">RegXp</td>
                                         </tr>
                                         <tr>
-                                            <td id="JsTextTherteen" className="transparentTableData">Maps</td>
-                                            <td id="JsTextFourteen" className="transparentTableData">Errors</td>
+                                            <td className="transparentTableData">Maps</td>
+                                            <td className="transparentTableData">Errors</td>
                                             <td className="transparentTableData text-danger bg-body-tertiary"> Assignment</td>
                                         </tr>
                                         <tr>
@@ -375,21 +455,21 @@
                                                 PHOTOSHOP </td>
                                         </tr>
                                         <tr>
-                                            <td id="PhsTextOne" className="transparentTableData">Introduction</td>
-                                            <td id="PhsTextTwo" className="transparentTableData">Rectangular & All Tool</td>
-                                            <td id="PhsTextThree" className="transparentTableData">Editing Photo in camera raw</td>
+                                            <td className="transparentTableData">Introduction</td>
+                                            <td className="transparentTableData">Rectangular & All Tool</td>
+                                            <td className="transparentTableData">Editing Photo in camera raw</td>
                                         </tr>
                                         <tr>
-                                            <td id="PhsTextFour" className="transparentTableData">Free Transform, Scale,
+                                            <td className="transparentTableData">Free Transform, Scale,
                                                 Rotate Etc.</td>
-                                            <td id="PhsTextFive" className="transparentTableData"> Auto Blend Layers & more..</td>
-                                            <td id="PhsTextSix" className="transparentTableData">Adjustments,
+                                            <td className="transparentTableData"> Auto Blend Layers & more..</td>
+                                            <td className="transparentTableData">Adjustments,
                                                 Exposure, Curves
                                                 Color Balance</td>
                                         </tr>
                                         <tr>
-                                            <td id="PhsTextSeven" className="transparentTableData">Layer Mask</td>
-                                            <td id="PhsTextEight" className="transparentTableData"> 3d object creation </td>
+                                            <td className="transparentTableData">Layer Mask</td>
+                                            <td className="transparentTableData"> 3d object creation </td>
                                             <td className="transparentTableData text-danger bg-body-tertiary"> Project Work ( Web
                                                 Designing ) </td>
                                         </tr>
@@ -413,8 +493,6 @@
                     </div>
                 </div >
             </div>
-         
-         
-            </>
-            )
+        </div >
+    )
 }

@@ -1,19 +1,28 @@
-import { useState, useEffect } from "react";
-
+import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import React from 'react';
+import Typed from 'typed.js';
+import { toast } from 'react-toastify';
+import { UniversalContext } from "../context/universal";
+import 'react-toastify/dist/ReactToastify.css';
+import { Link } from "react-router-dom";
 function Home() {
+    const navigate = useNavigate();
     const [notice, setNotice] = useState([]);
     const [fullName, setFullName] = useState('');
     const [mobile, setMobile] = useState('');
     const [email, setEmail] = useState('');
     const [title, setTitle] = useState('');
     const [query, setQuery] = useState('');
-const clrqury=(()=>{
-    setFullName('');
-    setMobile('');
-    setEmail('');
-    setTitle('');
-    setQuery('');
-})
+    const { adminLogin } = useContext(UniversalContext);
+    const aToken = localStorage.getItem('aJwt');
+    const clrqury = (() => {
+        setFullName('');
+        setMobile('');
+        setEmail('');
+        setTitle('');
+        setQuery('');
+    })
     const getAllNotice = (async () => {
         await fetch("http://localhost:3000/admin/getAllNotice").then(res => res.json())
             .then((data) => {
@@ -33,17 +42,125 @@ const clrqury=(()=>{
                 body: JSON.stringify({ fullName, mobile, email, title, query })
             }).then(res => res.json())
                 .then((res) => {
-                    console.log(res)
+                    if (res.mError) {
+                        toast.error('Some Error Occured');
+                    }
+                    else {
+                        toast.success('Query has been Sent');
+                    }
                 }).catch((error) => {
-                    console.log(error);
+                    console.log(error)
                 })
         }
     })
     useEffect(() => {
+        if (aToken) {
+            navigate('/Admin');
+        }
         getAllNotice();
     }, [])
+
+    useEffect(() => {
+        const typed = new Typed('#element', {
+            strings: ['<span class="hideFont">“<b style="color:red !important;">Drishtee</b> envisions a world where all communities are empowered to achieve shared prosperity.”</span>'],
+            typeSpeed: 55,
+            loop: true,
+        });
+        return () => {
+            typed.destroy();
+        };
+    }, []);
+
+
+    const [HomeBgColor, setHome] = useState('var(--mainBgcolor)');
+    const [HomeTextColor, setHomeTextColor] = useState('black');
+    const [aboutBgMainText, setaboutBgMainText] = useState('black');
+    const [featureBgColor, setfeatureBgColor] = useState('white');
+    const [featureTextColor, setfeatureTextColor] = useState('black');
+    const [carouselExampleIntervalBg, setcarouselExampleIntervalBg] = useState('url(images/vender/enquiryBg.png)')
+    const [liveCards, setliveCards] = useState('blue')
+    const [liveChildOne, setliveChildOne] = useState('white')
+    const [liveChildOneText, setliveChildOneText] = useState('black')
+    const [liveChildTwo, setliveChildTwo] = useState('white')
+    const [liveChildTwoText, setliveChildTwoText] = useState('black')
+    const [liveChildThree, setliveChildThree] = useState('white')
+    const [liveChildThreeText, setliveChildThreeText] = useState('black')
+    const [liveChildFour, setliveChildFour] = useState('white')
+    const [liveChildFourText, setliveChildFourText] = useState('black')
+    const DarkMode = () => {
+        if (HomeBgColor === 'black') {
+            setHome('var(--mainBgcolor)')
+            setHomeTextColor('black')
+            setaboutBgMainText('black')
+            setfeatureBgColor('white')
+            setfeatureTextColor('black')
+            setcarouselExampleIntervalBg('url(images/vender/enquiryBg.png)')
+            setliveCards('blue')
+            setliveChildOne('white')
+            setliveChildOneText('black')
+            setliveChildTwo('white')
+            setliveChildTwoText('black')
+            setliveChildThree('white')
+            setliveChildThreeText('black')
+            setliveChildFour('white')
+            setliveChildFourText('black')
+
+        }
+        else {
+            setHome('black')
+            setHomeTextColor('white')
+            setaboutBgMainText('white')
+            setfeatureBgColor("var(--MyDarkGrayBg)")
+            setfeatureTextColor('white')
+            setcarouselExampleIntervalBg('url(images/vender/testimonial.png)')
+            setliveCards('var(--MyDarkGrayBg)')
+            setliveChildOne('black')
+            setliveChildOneText('yellow')
+            setliveChildTwo('black')
+            setliveChildTwoText('yellow')
+            setliveChildThree('black')
+            setliveChildThreeText('yellow')
+            setliveChildFour('black')
+            setliveChildFourText('yellow')
+
+
+        }
+    }
+
     return (
-        <div style={{ background: 'var(--mainBgcolor)' }} id="Home" >
+        <div style={{ background: HomeBgColor, color: HomeTextColor }} id="Home" >
+            <div className="d-flex align-items-center justify-content-between fixed-top "
+                style={{ background: 'var(--topNavBgColor)', width: '100vw !important', fontSize: '0.7rem' }}  >
+                <div className="changer-container d-flex align-items-center justify-content-center TopWelcomeNavLeft ">
+                    <button className="changer-btn" style={{ background: 'transparent !important' }}>
+                        <input type="checkbox" id="switch" className="checkbox d-none w-50" onClick={DarkMode} />
+                        <label htmlFor="switch" className="toggle">
+                            <p className="m-0 p-0 switchChild">
+                                <i className="bi bi-sun-fill " style={{ color: 'orangered' }} title="Light Mode"></i>
+                                <i className="bi bi-moon-stars-fill text-white " title="Night Mode"></i>
+                            </p>
+                        </label>
+                    </button>
+                </div>
+                <div className="TopWelcomeCenter d-flex align-items-center">
+                    <marquee scrollamount="8" width="100%">
+                        <b className="text-light text-uppercase" >
+                            <big style={{ letterSpacing: '1px' }}> Welcome to DRISHTEE COMPUTER CENTER</big>
+                        </b>
+                    </marquee>
+                </div>
+                <div className="ms-auto d-flex align-items-center justify-content-end TopWelcomeNavRight ">
+                    <Link className="nav-link active text-white " id="myH2" aria-current="page" to="tel:+919918151032" title="Call-now">
+                        <img className='img-fluid' />919918151032
+                        &nbsp;&nbsp;</Link>
+                    <Link className="nav-link text-white " id="myH3" aria-current="page" to="#" title="E:Mail-Us">
+                        <img className='img-fluid' />
+                        ajtiwari4@gmail.com
+                        &nbsp;&nbsp;</Link>
+                </div>
+
+            </div>
+
             <div id="carouselExampleAutoplaying" className="carousel slide carousel-fade  " data-bs-ride="carousel">
                 <div className="carousel-inner MainCarousel">
                     <div className="carousel-item active">
@@ -68,7 +185,7 @@ const clrqury=(()=>{
                     <span className="carousel-control-next-icon"></span>
                 </button>
             </div>
-            <section className="fw-bolder" id="MarqueeWelcomeHome">
+            <section className="fw-medium " id="MarqueeWelcomeHome">
                 <marquee behavior="alternate" scrollamount="15"> Welcome to India No.1 Education Brand in India a
                     <span className="text-danger"> DRISHTEE COMPUTER CENTER </span>   </marquee>
                 <marquee className="HindiFont" direction="left"> ISO 9001 :
@@ -78,8 +195,8 @@ const clrqury=(()=>{
                     <img src="images/icon/gifPic.gif" height={10} />
                 </marquee>
             </section >
-            <div className="card w-100 rounded-0 mb-4 fw-normal "
-                style={{ background: 'var(--mainBgColor)' }} id="aboutBgMain">
+            <div className="card w-100 rounded-0 mb-4 fw-normal border-top-0 border-end-0 border-start-0 border-bottom border-dark-subtle  border-2"
+                style={{ background: 'var(--mainBgColor)', color: aboutBgMainText }}  >
                 <div className="row g-0 m-3 mb-0">
                     <div className="col-12 w-100">
                         <div className="row py-5 px-4 text-white d-flex align-items-center justify-content-center "
@@ -91,7 +208,7 @@ const clrqury=(()=>{
                                     Paragpur Road, next to Life Care Pharma, near Ramharsha Inter College, Nichaul,
                                     Maharajganj</span>
                             </div>
-                            <div className="col-md-2"> <a href="contact.html"><button
+                            <div className="col-md-2"> <a To="contact.html"><button
                                 className="btn btn-outline-light fw-medium border border-2 mt-4">Call
                                 To
                                 Action</button></a>
@@ -189,8 +306,9 @@ const clrqury=(()=>{
                     </div>
                 </div>
             </div>
-            <div id="carouselExampleInterval" className="carousel slide text-center " data-bs-ride="carousel"
-                style={{ borderBottom: 'var(--borderColor)' }}>
+            <div id="carouselExampleInterval"
+                style={{ background: carouselExampleIntervalBg, border: 'var(--borderColor)' }}
+                className="carousel slide text-center " data-bs-ride="carousel">
                 <span className=" w-100 d-block text-center p-2">
                     <h4 className="text-uppercase fw-bolder pt-4" style={{ color: 'white' }}
                         id="TestimonialHead"> What our
@@ -201,7 +319,8 @@ const clrqury=(()=>{
                 <div className="container m-auto">
                     <div className="carousel-inner pb-4 my-4" id="TestimonialChild">
                         <div className="carousel-item active" data-bs-interval="3000">
-                            <img className="rounded-circle cardBoxShadow " src={"images/vender/abhay.jpg"} alt="DIIT Student" style={{ width: "150px" }} />
+                            <img className="rounded-circle cardBoxShadow "
+                                src={"images/vender/abhay.jpg"} alt="DIIT Student" style={{ width: "150px" }} />
                             <div className="row d-flex justify-content-center">
                                 <div className="col-lg-8">
                                     <span className="fw-bold">
@@ -356,12 +475,14 @@ const clrqury=(()=>{
                     </div>
                 </div>
             </div>
-            <div className="container-fluid py-4 text-center " id="FeaturesBackgroundColor1">
+            <div className="container-fluid py-4 text-center " id="">
                 <h2 className="py-4 text-danger">
                     Features And Updates
                 </h2>
+
                 <center className="hideFont fw-medium" id="FeatureTextFirst">
                     <span id="element"></span>
+
                 </center>
                 <p align="center" className="showFont" id="FeatureTextSecond">
                     “
@@ -371,7 +492,7 @@ const clrqury=(()=>{
                 <div className="container-fluid pt-0">
                     <div className="row">
                         <div className="col-md-6 my-1 p-0 px-1 ">
-                            <div className="card cardBoxShadow border-0" id="openingHour">
+                            <div className="card cardBoxShadow border-0" style={{ background: featureBgColor, color: featureTextColor }} id="openingHour">
                                 <div className="card-header h4 text-white text-uppercase text-start"
                                     style={{ background: 'var(--cardHeadColor)' }}>
                                     <div data-aos="fade-right"><i className="fa fa-line-chart text-warning"></i> Opening
@@ -457,7 +578,7 @@ const clrqury=(()=>{
                             </div>
                         </div>
                         <div className="col-md-6 my-1 p-0 px-1">
-                            <div className="card cardBoxShadow border-0" id="NotishBoard">
+                            <div className="card cardBoxShadow border-0" style={{ background: featureBgColor, color: featureTextColor }} id="NotishBoard">
                                 <div className="card-header h4 text-white text-start" style={{ background: "var(--cardHeadColor )" }}>
                                     <div data-aos="fade-right"> <i className="bi bi-bell-fill text-warning "></i> NOTICE BOARD</div>
                                 </div>
@@ -488,9 +609,9 @@ const clrqury=(()=>{
                                         <hr width="90%" />
                                     </marquee>
                                 </div>
-                                <marquee className="py-2 bg-warning-subtle" behavior="scroll" direction="left"  >
-                                    <a href="certificate.html" className="blink"><b>
-                                        अपनी प्रमाणपत्र की स्थिति जानने के लिए क्लिक करें </b></a>
+                                <marquee className="py-2" behavior="scroll" direction="left"  >
+                                    <Link to="/Verification" className="blink"><b>
+                                        अपनी प्रमाणपत्र की स्थिति जानने के लिए क्लिक करें </b></Link>
                                 </marquee>
                             </div>
                         </div>
@@ -560,16 +681,16 @@ const clrqury=(()=>{
                         </div>
                         <div className="card-group ZoomGallaryPic ">
                             <div className="card m-2 p-0 myshadow transparentTableData" data-aos="zoom-in">
-                                <img src="images/pray.png" className="card-img-top" />
+                                <img src="images/vender/pray.png" className="card-img-top" />
                             </div>
                             <div className="card m-2 p-0 myshadow transparentTableData" data-aos="zoom-in">
-                                <img src="images/Tparty.png" className="card-img-top" />
+                                <img src="images/vender/Tparty.png" className="card-img-top" />
                             </div>
                             <div className="card m-2 p-0 myshadow transparentTableData" data-aos="zoom-in">
-                                <img src="images/prasantPic.png" className="card-img-top" />
+                                <img src="images/vender/std2.jpg" className="card-img-top" />
                             </div>
                             <div className="card m-2 p-0 myshadow transparentTableData" data-aos="zoom-in">
-                                <img src="images/reward1.png" className="card-img-top" />
+                                <img src="images/vender/reward1.png" className="card-img-top" />
                             </div>
                         </div>
                     </div>
@@ -577,44 +698,44 @@ const clrqury=(()=>{
                         tabIndex="0">
                         <div className="card-group ">
                             <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/std1.png" className="card-img-top" />
+                                <img src="images/vender/std1.png" className="card-img-top" />
                             </div>
                             <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/std19.jpg" className="card-img-top" />
+                                <img src="images/vender/std19.jpg" className="card-img-top" />
                             </div>
                             <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/diitclass2.jpg" className="card-img-top" />
+                                <img src="images/vender/diitclass2.jpg" className="card-img-top" />
                             </div>
                             <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/lab2.jpg" className="card-img-top" />
-                            </div>
-                        </div>
-                        <div className="card-group ">
-                            <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/presentation1.png" className="card-img-top" />
-                            </div>
-                            <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/dance2.jpg" className="img-fluid card-img-top" />
-                            </div>
-                            <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/dance3.jpg" className=" card-img-top" />
-                            </div>
-                            <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/dance4.jpg" className="card-img-top" />
+                                <img src="images/vender/lab2.jpg" className="card-img-top" />
                             </div>
                         </div>
                         <div className="card-group ">
                             <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/presentation2.png" className="card-img-top" />
+                                <img src="images/vender/presentation1.png" className="card-img-top" />
                             </div>
                             <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/presentation2.png" className="card-img-top" />
+                                <img src="images/vender/dance1.jpg" className=" card-img-top" />
                             </div>
                             <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/presentation2.png" className="card-img-top" />
+                                <img src="images/vender/dance3.jpg" className=" card-img-top" />
                             </div>
                             <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/presentation2.png" className="card-img-top" />
+                                <img src="images/vender/dance4.jpg" className="card-img-top" />
+                            </div>
+                        </div>
+                        <div className="card-group ">
+                            <div className="card m-2 p-0 myshadow transparentTableData ">
+                                <img src="images/vender/presentation2.png" className="card-img-top" />
+                            </div>
+                            <div className="card m-2 p-0 myshadow transparentTableData ">
+                                <img src="images/vender/std2.jpg" className="card-img-top" />
+                            </div>
+                            <div className="card m-2 p-0 myshadow transparentTableData ">
+                                <img src="images/vender/presentation2.png" className="card-img-top" />
+                            </div>
+                            <div className="card m-2 p-0 myshadow transparentTableData ">
+                                <img src="images/vender/presentation2.png" className="card-img-top" />
                             </div>
                         </div>
                     </div>
@@ -622,50 +743,52 @@ const clrqury=(()=>{
                         tabIndex="0">
                         <div className="card-group ">
                             <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/reward1.png" className="card-img-top" />
+                                <img src="images/vender/reward1.png" className="card-img-top" />
                             </div>
                             <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/reward2.png" className="card-img-top" />
+                                <img src="images/vender/reward2.png" className="card-img-top" />
                             </div>
                             <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/reward4.png" className="card-img-top" />
+                                <img src="images/vender/reward4.png" className="card-img-top" />
                             </div>
                             <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/reward5.png" className="card-img-top" />
-                            </div>
-                        </div>
-                        <div className="card-group ">
-                            <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/reward7.png" className="card-img-top" />
-                            </div>
-                            <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/prasantPic.png" className="card-img-top" />
-                            </div>
-                            <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/sir_1.png" className="card-img-top" />
-                            </div>
-                            <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/presentation2.png" className="card-img-top" />
+                                <img src="images/vender/reward5.png" className="card-img-top" />
                             </div>
                         </div>
                         <div className="card-group ">
                             <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/prashant3.png" className="card-img-top" />
+                                <img src="images/vender/reward7.png" className="card-img-top" />
                             </div>
                             <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/pptrw.jpg" className="card-img-top" />
+                                <img src="images/vender/rwd2.png" className="card-img-top" />
                             </div>
                             <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/sm.png" className="card-img-top" />
+                                <img src="images/vender/sir_1.png" className="card-img-top" />
                             </div>
                             <div className="card m-2 p-0 myshadow transparentTableData ">
-                                <img src="images/sanjana.jpg" className="card-img-top" />
+                                <img src="images/vender/presentation2.png" className="card-img-top" />
+                            </div>
+                        </div>
+                        <div className="card-group ">
+                            <div className="card m-2 p-0 myshadow transparentTableData ">
+                            
+                                <img src="images/vender/sanjana.jpg" className="card-img-top" />
+                            </div>
+                            <div className="card m-2 p-0 myshadow transparentTableData ">
+                                <img src="images/vender/rwd1.jpg" className="card-img-top" />
+                            </div>
+                            <div className="card m-2 p-0 myshadow transparentTableData ">
+                                <img src="images/vender/sm.png" className="card-img-top" />
+                            </div>
+                            <div className="card m-2 p-0 myshadow transparentTableData ">
+                            <img src="images/vender/std2.jpg" className="card-img-top" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div className="card-group py-5 fixed-position " id="liveCards" style={{ background: 'rgb(41, 41, 255)' }}>
+            <div className="card-group py-5 fixed-position "
+                id="liveCards" style={{ background: liveCards }}>
                 <span className=" w-100 d-block text-center 
  h2 fw-bolder" style={{ color: 'yellow' }}>
                     <p id="LiveWork"> WHY CHOOSE DRISHTEE </p>
@@ -676,7 +799,8 @@ const clrqury=(()=>{
                         <hr size="5" color="yellow" width="20%" />
                     </center>
                 </span>
-                <div className="card text-center m-1 border-secondary-subtle myshadow" id="liveChildOne" data-aos="fade-up"
+                <div className="card text-center m-1 border-secondary-subtle myshadow"
+                    style={{ background: liveChildOne, color: liveChildOneText }} data-aos="fade-up"
                     data-aos-duration="300">
                     <img className="card-img-top mt-2 rounded mx-auto d-block" src="images/icon/projector.png" style={{ width: '70px' }} />
                     <div className="card-body">
@@ -685,7 +809,8 @@ const clrqury=(()=>{
                         <p className="card-text " id="liveText1"> To work on real time projects. </p>
                     </div>
                 </div>
-                <div className="card text-center m-1 border-secondary myshadow" id="liveChildTwo" data-aos="fade-up"
+                <div className="card text-center m-1 border-secondary myshadow"
+                    style={{ background: liveChildTwo, color: liveChildTwoText }} data-aos="fade-up"
                     data-aos-duration="600">
                     <img className="card-img-top mt-2 rounded mx-auto d-block" src="images/icon/trainers.png" style={{ width: '70px' }} />
                     <div className="card-body">
@@ -694,7 +819,7 @@ const clrqury=(()=>{
                         <p className="card-text " id="liveText2"> Learn from certified & experienced trainers . </p>
                     </div>
                 </div>
-                <div className="card text-center m-1 border-secondary myshadow" id="liveChildThree" data-aos="fade-up"
+                <div className="card text-center m-1 border-secondary myshadow" style={{ background: liveChildThree, color: liveChildThreeText }} data-aos="fade-up"
                     data-aos-duration="900">
                     <img className="card-img-top mt-2 rounded mx-auto d-block" src="images/icon/course2.png" style={{ width: '70px' }} />
                     <div className="card-body">
@@ -703,7 +828,7 @@ const clrqury=(()=>{
                         </p>
                     </div>
                 </div>
-                <div className="card m-1 text-center border-secondary myshadow" id="liveChildFour" data-aos="fade-up"
+                <div className="card m-1 text-center border-secondary myshadow" style={{ background: liveChildFour, color: liveChildFourText }} data-aos="fade-up"
                     data-aos-duration="1200">
                     <img className="card-img-top mt-2 rounded mx-auto d-block" src="images/icon/practical.gif" style={{ width: '70px' }} />
                     <div className="card-body">
@@ -713,24 +838,33 @@ const clrqury=(()=>{
                 </div>
             </div>
             <div className="container-fluid">
-                <div className="row myFlex">
+                <div className="row  ">
                     <div className="col-12 " id="RegistrationContainer">
                         <div className="row my-4">
-                            <div className="col-md-8 myFlex p-2" id='h88'>
-                                {
-                                    notice.map((data) => {
-                                        return (
-                                            <div className="conatainer" data-aos="fade-right" data-aos-duration="1500" id={data._id}>
-                                                <h1>
-                                                    <font color="white ">{data.title}</font>
-                                                </h1>
-                                                <div className="container text-white">
-                                                    {data.nMessage}
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                }
+                            <div className="col-md-8 d-flex justify-content-center align-content-center m-auto p-2 " id='h88'>
+                                <div className="row">
+
+                                    <div className="col-12">
+                                        <p className="text-warning fw-bolder">NEED ANY ENQUERY......!!</p>
+                                        <h1 className="text-white"> <b className="text-warning">50% </b> off for New students</h1>
+                                        {
+                                            notice.map((data) => {
+                                                return (
+                                                    <div className="conatainer" data-aos="fade-right" data-aos-duration="1500" id={data._id}>
+                                                        <h1>
+                                                            <font color="red ">{data.title}</font>
+
+                                                        </h1>
+                                                        <div className="container text-white">
+                                                            {data.nMessage}
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </div>
+
+                                </div>
                             </div>
                             <div className="col-md-4 py-4" style={{ overflowX: 'hidden' }}>
                                 <div className="row p-0 border m-0 text-white " id="Myform" data-aos="fade-left" >
