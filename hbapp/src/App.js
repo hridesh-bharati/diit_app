@@ -1,6 +1,7 @@
-// import {
-//   Routes,
-//   Route,
+import {
+  Routes,
+  Route,
+} from "react-router-dom";
 import { useContext, useState } from "react";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,11 +12,6 @@ import "./MediaQuery.css";
 import SocialIcons from "./Components/SocialIcons";
 import FooterCorse from "./Components/FooterCourse";
 import About from "./Components/About";
-// import Diploma from "./Components/Diploma";
-import {
-  Routes,
-  Route,
-} from "react-router-dom";
 import Branch from "./Components/Branch";
 import Contact from "./Components/Contact";
 import Diploma from "./Components/Course/Diploma";
@@ -28,29 +24,23 @@ import NielitCourse from "./Components/Course/NielitCourse";
 import ComputerRepairing from "./Components/Course/ComputeeRepairing";
 import Admin from "./Components/Admin";
 import AdmissionForm from "./Components/AdmissionForm";
-import Gallary from "./Components/Gallary";
 import Footer from "./Components/Footer";
 import Time from "./Components/Time";
-import Chat from "./Components/Chat"
 import { UniversalContext } from "./context/universal";
 function App() {
   const [confermModal, setConfermModal] = useState(false);
   const [adminLogin, setAdminLogin] = useState(false);
-  
   return (
     <>
-
       <UniversalContext.Provider value={{ confermModal, setConfermModal, adminLogin, setAdminLogin }}>
         <Header />
-      
-        {/* <SocialIcons /> */}
+        <SocialIcons />
         <Routes>
           <Route excact path="/" element={<Home />} />
           <Route excact path="/home" element={<Home />} />
           <Route excact path="/about" element={<About />} />
           <Route excact path="/branch" element={<Branch />} />
           <Route excact path="/contact" element={<Contact />} />
-          <Route excact path="/callary" element={<Gallary />} />
           <Route excact path="/AdmissionForm" element={<AdmissionForm />} />
           <Route excact path="/Verification" element={<Verification />} />
           <Route excact path="/course/Discription" element={<Discription />} />
@@ -62,13 +52,11 @@ function App() {
           <Route excact path="/course/NielitCourse" element={<NielitCourse />} />
           <Route excact path="/admin" element={<Admin />} />
           <Route excact path="/Time" element={<Time />} />
-          <Route excact path="/Chat" element={<Chat />} />
         </Routes>
         <ToastContainer />
       </UniversalContext.Provider>
       <FooterCorse />
-      <Footer/>
-
+      <Footer />
     </>
   );
 }

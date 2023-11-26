@@ -843,9 +843,9 @@ form span,
 
 /* Admin pannel  */
 .amtWheel{
-    animation: amt 1s linear  infinite;
+    animation: anmt 1s linear  infinite;
 }
-@keyframes amt {
+@keyframes anmt {
     100%{
         transform: rotate(360deg);
     }
