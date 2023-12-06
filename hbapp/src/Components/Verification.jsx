@@ -95,7 +95,7 @@ const PrintComponent = () => {
                  border border-secondary-subtle  " id='DisplayNone'
                 >
                     <div id="PrintResult">
-                        <div className="m-1 px-2 certificate" style={{ background: '#00062B', border: "15px solid #00062B" }}>
+                        <div className="m-1 px-2 certificate" style={{ background: '#00062B', border: "15px solid #00062B"}}>
                             <div className="header row bg-white d-flex py-1">
 
                                 <div className="col-3 HeaderLeft">
@@ -117,7 +117,7 @@ const PrintComponent = () => {
                                     <p>Reg NO : 72/2013-14</p>
                                 </div>
                             </div>
-                            <div className="caption text-center " style={{ background: '#00062B', color: 'white', fontFamily: "'Poppins', sans-serif" }}>
+                            <div className="caption text-center " style={{ background: '#00062B', color: 'white'}}>
                                 <h1 className='p-0 m-0'>Certificate of Course Completion</h1>
                             </div>
                             <div className="row p-1 px-3 bg-white text-center">
