@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@1&display=swap');
 
 html {
@@ -422,24 +423,6 @@ body::-webkit-scrollbar {
 }
 
 /* ********Swiper ************* */
-swiper-container {
-    width: 100%;
-    padding-top: 50px;
-    padding-bottom: 50px;
-}
-
-swiper-slide {
-    background-position: center;
-    background-size: cover;
-    width: 300px;
-    height: 300px;
-}
-
-swiper-slide img {
-    display: block;
-    width: 100%;
-}
-
 /* swiper style  */
 .swiper {
     width: 100%;
@@ -447,7 +430,7 @@ swiper-slide img {
     padding-bottom: 50px;
 }
 
-.swiper-slide {
+.SwiperSlide {
     background-position: center;
     background-size: cover;
     width: 300px;
@@ -491,11 +474,10 @@ swiper-slide img {
 
 /* Start Team section  */
 .bg-team {
-    /* background: linear-gradient(rgba(0, 0, 0, 0.8),
+    background: linear-gradient(rgba(0, 0, 0, 0.8),
             rgba(14, 15, 16, 0.933)),
-        url(pic/map2.png); */
+        url("../public/images/vender/map2.png") center;
     background-size: cover;
-    background-position: center;
 }
 
 /*   Social Icons  */
@@ -611,26 +593,21 @@ swiper-slide img {
 
 /* Thuumblain  */
 #thumblain {
-    height: 100px !important;
     background: #00062B;
 }
 
-#thumblain swiper-slide {
+#thumblain .swiper-slide {
+    border-radius: 10px;
     display: flex;
     align-items: start;
     justify-content: center;
-    height: 100px !important;
+    height: 75px !important;
     width: auto !important;
     margin: 1rem !important;
 }
 
-#thumblain swiper-slide .card .card-body {
-    margin: 0;
-    padding: 0;
-    width: 120px;
-}
-
-#thumblain swiper-slide .card .card-body img {
+#thumblain img {
+    width: 150px !important;
     border: 2px solid white;
     border-radius: 10px;
 }
@@ -708,17 +685,22 @@ form span,
     border: 1px solid gray;
     border-left: none;
 }
+
 .contactForm input,
-.contactForm textarea
-{
-   background: #a9a9a952 !important;
-   
+.contactForm textarea {
+    background: #a9a9a952 !important;
+
 }
-.contactForm ::placeholder{
+
+.contactForm ::placeholder {
     color: rgb(136, 136, 136) !important;
 
 }
+
 /* Diploma Course */
+#mainDiplomaContainer table {
+    margin: 3rem 0 !important;
+}
 
 #course {
     background: var(--bg-color4);
@@ -739,11 +721,7 @@ form span,
 .hidden {
     visibility: hidden !important;
 }
-
-#PrintResult table tr th,
-#PrintResult table tr td {
-    padding: 10px !important;
-}
+ 
 
 #myDiplomaHeader {
     box-shadow: 2px 2px 8px #888888 !important;
@@ -842,19 +820,22 @@ form span,
 }
 
 /* Admin pannel  */
-.amtWheel{
-    animation: anmt 1s linear  infinite;
+.amtWheel {
+    animation: amt 1s linear infinite;
 }
-@keyframes anmt {
-    100%{
+
+@keyframes amt {
+    100% {
         transform: rotate(360deg);
     }
-    
+
 }
-#AdminProfile label{
-font-weight: bolder !important;
-color: #0033ff;
+
+#AdminProfile label {
+    font-weight: bolder !important;
+    color: #0033ff;
 }
+
 #adminBodyBgColor {
     background: #f1f5f9 !important;
     background: var(--grayBgColor);
@@ -929,4 +910,19 @@ color: #0033ff;
 
 #StudentDataBase thead tbody {
     padding: 1rem !important;
+}
+
+/* CertificateData */
+.title h1 {
+    font-weight: bolder !important;
+    letter-spacing: 5px;
+    font-size: 4rem;
+    padding: 0;
+    text-transform: uppercase !important;
+    margin: 0;
+}
+
+.AllCoursseContent li {
+    margin: 0 1rem;
+    list-style-type: decimal;
 }
